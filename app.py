@@ -14,9 +14,20 @@ def process_form():
     last_name = request.form['last_name']
     return render_template('hello.template.html', fn=first_name, ln=last_name)
 
-@app.route('/about-us')
-def about():
-    return "About Us"
+# if the server recieves GET /bmi
+@app.route('/bmi')
+def show_bmi_form():
+    return render_template("bmi.template.html")
+    
+
+@app.route('/bmi', methods=['POST'])
+def process_bmi_form():
+    print(request.form)
+    weight = float(request.form['weight'])
+    height = float(request.form['height'])
+    bmi = weight / (height * height)
+    return render_template('bmi_result.template.html', actual_bmi=bmi)
+
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
